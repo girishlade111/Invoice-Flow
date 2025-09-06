@@ -7,7 +7,16 @@ import { useInvoice } from '@/hooks/use-invoice';
 import { useEffect, useRef, useState } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { Menu, Moon, Sun } from 'lucide-react';
+import {
+  Menu,
+  Moon,
+  Sun,
+  Instagram,
+  Linkedin,
+  Github,
+  Codepen,
+  Mail,
+} from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -159,6 +168,35 @@ export default function Home() {
           />
         </div>
       </main>
+      <footer className="no-print border-t bg-card">
+        <div className="max-w-4xl mx-auto py-6 px-4 md:px-8 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-sm text-muted-foreground">
+            &copy; {new Date().getFullYear()} InvoiceFlow. Built by Girish Lade.
+          </p>
+          <div className="flex items-center gap-4">
+            <a href="https://www.instagram.com/girish_lade_/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+              <Instagram className="h-5 w-5" />
+              <span className="sr-only">Instagram</span>
+            </a>
+            <a href="https://www.linkedin.com/in/girish-lade-075bba201/" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+              <Linkedin className="h-5 w-5" />
+              <span className="sr-only">LinkedIn</span>
+            </a>
+            <a href="https://github.com/girishlade111" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+              <Github className="h-5 w-5" />
+              <span className="sr-only">GitHub</span>
+            </a>
+            <a href="https://codepen.io/Girish-Lade-the-looper" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-primary transition-colors">
+              <Codepen className="h-5 w-5" />
+              <span className="sr-only">Codepen</span>
+            </a>
+            <a href="mailto:girishlade111@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
+              <Mail className="h-5 w-5" />
+              <span className="sr-only">Email</span>
+            </a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
