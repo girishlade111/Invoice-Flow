@@ -173,32 +173,6 @@ export function InvoiceForm({
         </Card>
 
         <div className="space-y-8">
-            <SectionCard title="Settings" id="settings">
-                <div className="space-y-4">
-                     <Field label="Template" htmlFor="template-select">
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                             <Button variant={invoice.template === 'business' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'business')} className="flex-1">
-                                <Building className="mr-2 h-4 w-4" /> Business
-                            </Button>
-                             <Button variant={invoice.template === 'classic' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'classic')} className="flex-1">
-                                <Type className="mr-2 h-4 w-4" /> Classic
-                            </Button>
-                            <Button variant={invoice.template === 'modern' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'modern')} className="flex-1">
-                                <Sparkles className="mr-2 h-4 w-4" /> Modern
-                            </Button>
-                             <Button variant={invoice.template === 'creative' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'creative')} className="flex-1">
-                                <Wand className="mr-2 h-4 w-4" /> Creative
-                            </Button>
-                            <Button variant={invoice.template === 'formal' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'formal')} className="flex-1">
-                                <Briefcase className="mr-2 h-4 w-4" /> Formal
-                            </Button>
-                             <Button variant={invoice.template === 'minimal' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'minimal')} className="flex-1">
-                                <Feather className="mr-2 h-4 w-4" /> Minimal
-                            </Button>
-                        </div>
-                    </Field>
-                </div>
-            </SectionCard>
             
             <SectionCard title="Company & Client" id="company-client">
                 <div className="space-y-8">
@@ -406,6 +380,33 @@ export function InvoiceForm({
                             <Textarea id="terms" placeholder="Payment terms, policies, etc." value={invoice.terms} onChange={(e) => handleFieldChange('terms', e.target.value)} rows={3}/>
                         </Field>
                     </div>
+                </div>
+            </SectionCard>
+
+            <SectionCard title="Settings" id="settings">
+                <div className="space-y-4">
+                     <Field label="Template" htmlFor="template-select">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                             <Button variant={invoice.template === 'business' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'business')} className="flex-1">
+                                <Building className="mr-2 h-4 w-4" /> Business
+                            </Button>
+                             <Button variant={invoice.template === 'classic' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'classic')} className="flex-1">
+                                <Type className="mr-2 h-4 w-4" /> Classic
+                            </Button>
+                            <Button variant={invoice.template === 'modern' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'modern')} className="flex-1">
+                                <Sparkles className="mr-2 h-4 w-4" /> Modern
+                            </Button>
+                             <Button variant={invoice.template === 'creative' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'creative')} className="flex-1">
+                                <Wand className="mr-2 h-4 w-4" /> Creative
+                            </Button>
+                            <Button variant={invoice.template === 'formal' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'formal')} className="flex-1">
+                                <Briefcase className="mr-2 h-4 w-4" /> Formal
+                            </Button>
+                             <Button variant={invoice.template === 'minimal' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'minimal')} className="flex-1">
+                                <Feather className="mr-2 h-4 w-4" /> Minimal
+                            </Button>
+                        </div>
+                    </Field>
                 </div>
             </SectionCard>
         </div>
