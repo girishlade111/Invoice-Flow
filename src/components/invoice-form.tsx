@@ -28,6 +28,7 @@ import {
   Type,
   Wand,
   Briefcase,
+  Feather,
 } from 'lucide-react';
 import type { UseInvoiceReturn } from '@/hooks/use-invoice';
 import { useToast } from '@/hooks/use-toast';
@@ -173,7 +174,7 @@ export function InvoiceForm({
             <SectionCard title="Settings" id="settings">
                 <div className="space-y-4">
                      <Field label="Template" htmlFor="template-select">
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
                              <Button variant={invoice.template === 'classic' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'classic')} className="flex-1">
                                 <Type className="mr-2 h-4 w-4" /> Classic
                             </Button>
@@ -185,6 +186,9 @@ export function InvoiceForm({
                             </Button>
                             <Button variant={invoice.template === 'formal' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'formal')} className="flex-1">
                                 <Briefcase className="mr-2 h-4 w-4" /> Formal
+                            </Button>
+                             <Button variant={invoice.template === 'minimal' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'minimal')} className="flex-1">
+                                <Feather className="mr-2 h-4 w-4" /> Minimal
                             </Button>
                         </div>
                     </Field>
@@ -251,6 +255,20 @@ export function InvoiceForm({
                     </Field>
                     <Field label="Due Date" htmlFor="dueDate">
                         <DatePicker date={invoice.dueDate} setDate={(d) => handleFieldChange('dueDate', d)} />
+                    </Field>
+                </div>
+            </SectionCard>
+
+            <SectionCard title="Payment Details" id="payment-details">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <Field label="Bank Name" htmlFor="paymentBank">
+                        <Input id="paymentBank" value={invoice.paymentBank} onChange={(e) => handleFieldChange('paymentBank', e.target.value)} />
+                    </Field>
+                    <Field label="Account Name" htmlFor="paymentAccountName">
+                         <Input id="paymentAccountName" value={invoice.paymentAccountName} onChange={(e) => handleFieldChange('paymentAccountName', e.target.value)} />
+                    </Field>
+                    <Field label="Account Number" htmlFor="paymentAccountNumber">
+                         <Input id="paymentAccountNumber" value={invoice.paymentAccountNumber} onChange={(e) => handleFieldChange('paymentAccountNumber', e.target.value)} />
                     </Field>
                 </div>
             </SectionCard>

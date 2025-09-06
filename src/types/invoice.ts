@@ -6,7 +6,7 @@ export interface InvoiceItem {
 }
 
 export interface Invoice {
-  template: 'classic' | 'modern' | 'creative' | 'formal';
+  template: 'classic' | 'modern' | 'creative' | 'formal' | 'minimal';
   logo?: string | null;
   invoiceNumber: string;
   fromName: string;
@@ -28,4 +28,7 @@ export interface Invoice {
   discountValue: string;
   taxType: "percentage" | "fixed";
   taxValue: string;
+  paymentBank: string;
+  paymentAccountName: string;
+  paymentAccountNumber: string;
 }

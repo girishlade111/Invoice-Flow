@@ -36,6 +36,9 @@ const getInitialInvoice = (): Invoice => ({
   discountValue: '0',
   taxType: 'percentage',
   taxValue: '5',
+  paymentBank: 'Borcele Bank',
+  paymentAccountName: 'Adeline Palmerston',
+  paymentAccountNumber: '0123 4567 8901',
 });
 
 // Create an empty initial state to avoid server/client mismatch
@@ -174,5 +177,3 @@ export const useInvoice = () => {
 };
 
 export type UseInvoiceReturn = ReturnType<typeof useInvoice>;
-
-    
