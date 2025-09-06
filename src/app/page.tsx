@@ -1,3 +1,4 @@
+
 'use client';
 
 import { InvoiceForm } from '@/components/invoice-form';
@@ -85,10 +86,10 @@ export default function Home() {
         </Sheet>
       </header>
 
-      <main className="grid flex-1 grid-cols-1 lg:grid-cols-5 xl:grid-cols-11">
-        <div className="hidden lg:block lg:col-span-2 xl:col-span-4 no-print">
+      <main className="flex flex-1 flex-col">
+        <div className="flex-1 no-print">
           <ScrollArea className="h-full">
-            <div className="p-6 xl:p-8">
+            <div className="p-6 xl:p-8 max-w-4xl mx-auto">
               <InvoiceForm
                 {...invoiceState}
                 invoicePreviewRef={invoicePreviewRef}
@@ -96,18 +97,14 @@ export default function Home() {
             </div>
           </ScrollArea>
         </div>
-        <div className="lg:col-span-3 xl:col-span-7 bg-muted/40 dark:bg-muted/20 flex justify-center print-container">
-          <ScrollArea className="h-full w-full py-6 xl:py-8">
-            <div className="flex justify-center items-start">
-              <div className="w-full max-w-[8.5in] p-4">
-                <InvoicePreview
-                  ref={invoicePreviewRef}
-                  {...invoiceState.invoice}
-                  calculatedTotals={invoiceState.calculatedTotals}
-                />
-              </div>
+        <div className="bg-muted/40 dark:bg-muted/20 flex justify-center print-container py-6 xl:py-8">
+            <div className="w-full max-w-[8.5in] p-4">
+              <InvoicePreview
+                ref={invoicePreviewRef}
+                {...invoiceState.invoice}
+                calculatedTotals={invoiceState.calculatedTotals}
+              />
             </div>
-          </ScrollArea>
         </div>
       </main>
     </div>
