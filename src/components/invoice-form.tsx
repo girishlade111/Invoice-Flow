@@ -25,6 +25,7 @@ import {
   RotateCcw,
   PlusCircle,
   Calendar,
+  Palette,
 } from 'lucide-react';
 import type { UseInvoiceReturn } from '@/hooks/use-invoice';
 import { useToast } from '@/hooks/use-toast';
@@ -166,8 +167,25 @@ export function InvoiceForm({
         </Card>
 
         <div className="space-y-8">
+            <SectionCard title="Settings" id="settings">
+                <div className="space-y-4">
+                    <Field label="Template" htmlFor="template-select">
+                        <Select value={invoice.template} onValueChange={(v) => handleFieldChange('template', v)}>
+                            <SelectTrigger id="template-select">
+                                <Palette className="mr-2 h-4 w-4" />
+                                <SelectValue placeholder="Select a template" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="modern">Modern</SelectItem>
+                                <SelectItem value="classic">Classic</SelectItem>
+                            </SelectContent>
+                        </Select>
+                    </Field>
+                </div>
+            </SectionCard>
+
             <SectionCard title="Company & Client" id="company-client">
-                <div className="space-y-8">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-4">
                         <h3 className="font-semibold text-lg">From</h3>
                         <Field label="Your Logo" htmlFor="logo-upload">
@@ -195,7 +213,7 @@ export function InvoiceForm({
                             <Input id="fromCountry" value={invoice.fromCountry} onChange={(e) => handleFieldChange('fromCountry', e.target.value)} />
                         </Field>
                     </div>
-                    <div className="space-y-4">
+                     <div className="space-y-4">
                         <h3 className="font-semibold text-lg">To</h3>
                          <Field label="Client's Name" htmlFor="toName">
                             <Input id="toName" value={invoice.toName} onChange={(e) => handleFieldChange('toName', e.target.value)} />
@@ -217,11 +235,11 @@ export function InvoiceForm({
             </SectionCard>
 
             <SectionCard title="Invoice Details" id="invoice-details">
-                 <div className="space-y-6">
+                <div className="space-y-6">
                     <Field label="Invoice #" htmlFor="invoiceNumber">
                         <Input id="invoiceNumber" value={invoice.invoiceNumber} onChange={(e) => handleFieldChange('invoiceNumber', e.target.value)} />
                     </Field>
-                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <Field label="Date of Issue" htmlFor="date">
                             <DatePicker date={invoice.date} setDate={(d) => handleFieldChange('date', d)} />
                         </Field>
@@ -278,15 +296,7 @@ export function InvoiceForm({
 
             <SectionCard title="Totals & Notes" id="totals-notes">
                  <div className="flex flex-col gap-8">
-                     <div className="space-y-6">
-                        <Field label="Notes" htmlFor="notes">
-                            <Textarea id="notes" placeholder="Any additional notes..." value={invoice.notes} onChange={(e) => handleFieldChange('notes', e.target.value)} rows={3}/>
-                        </Field>
-                        <Field label="Terms & Conditions" htmlFor="terms">
-                            <Textarea id="terms" placeholder="Payment terms, policies, etc." value={invoice.terms} onChange={(e) => handleFieldChange('terms', e.target.value)} rows={3}/>
-                        </Field>
-                    </div>
-                    <div className="space-y-4 self-end w-full max-w-md bg-muted/30 dark:bg-muted/20 p-6 rounded-lg">
+                     <div className="space-y-4 self-end w-full max-w-md bg-muted/30 dark:bg-muted/20 p-6 rounded-lg">
                         <div className="flex justify-between items-center">
                             <span className="text-muted-foreground">Subtotal</span>
                             <span className="font-semibold">{formatCurrency(calculatedTotals.subtotal)}</span>
@@ -335,9 +345,19 @@ export function InvoiceForm({
                             <span>{formatCurrency(calculatedTotals.total)}</span>
                         </div>
                     </div>
+                     <div className="space-y-6">
+                        <Field label="Notes" htmlFor="notes">
+                            <Textarea id="notes" placeholder="Any additional notes..." value={invoice.notes} onChange={(e) => handleFieldChange('notes', e.target.value)} rows={3}/>
+                        </Field>
+                        <Field label="Terms & Conditions" htmlFor="terms">
+                            <Textarea id="terms" placeholder="Payment terms, policies, etc." value={invoice.terms} onChange={(e) => handleFieldChange('terms', e.target.value)} rows={3}/>
+                        </Field>
+                    </div>
                 </div>
             </SectionCard>
         </div>
     </div>
   );
 }
+
+    

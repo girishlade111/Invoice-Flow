@@ -4,6 +4,7 @@ import { useState, useMemo, useCallback, useEffect } from 'react';
 import type { Invoice, InvoiceItem } from '@/types/invoice';
 
 const getInitialInvoice = (): Invoice => ({
+  template: 'modern',
   logo: null,
   invoiceNumber: 'INV-001',
   fromName: 'Your Name',
@@ -20,16 +21,21 @@ const getInitialInvoice = (): Invoice => ({
   dueDate: new Date(new Date().setDate(new Date().getDate() + 30)),
   items: [{
     id: crypto.randomUUID(),
-    description: '',
+    description: 'Responsive Website Design',
     quantity: '1',
-    rate: '0.00',
+    rate: '2500.00',
+  },{
+    id: crypto.randomUUID(),
+    description: 'Logo Design',
+    quantity: '1',
+    rate: '800.00',
   }],
   notes: 'Thanks for your business!',
   terms: 'Payment due within 30 days.',
   discountType: 'percentage',
   discountValue: '0',
   taxType: 'percentage',
-  taxValue: '0',
+  taxValue: '5',
 });
 
 // Create an empty initial state to avoid server/client mismatch
@@ -45,16 +51,20 @@ export const useInvoice = () => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    setIsMounted(true);
     const savedData = localStorage.getItem('invoiceData');
     if (savedData) {
-        const parsed = JSON.parse(savedData);
-        parsed.date = new Date(parsed.date);
-        parsed.dueDate = new Date(parsed.dueDate);
-        setInvoice(parsed);
+        try {
+            const parsed = JSON.parse(savedData);
+            parsed.date = new Date(parsed.date);
+            parsed.dueDate = new Date(parsed.dueDate);
+            setInvoice(parsed);
+        } catch(e) {
+             setInvoice(getInitialInvoice());
+        }
     } else {
         setInvoice(getInitialInvoice());
     }
-    setIsMounted(true);
   }, []);
 
   const updateInvoice = useCallback((updates: Partial<Invoice>) => {
@@ -112,10 +122,10 @@ export const useInvoice = () => {
   }, [invoice.items, invoice.discountType, invoice.discountValue, invoice.taxType, invoice.taxValue]);
 
   const saveInvoice = useCallback(() => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && isMounted) {
       localStorage.setItem('invoiceData', JSON.stringify(invoice));
     }
-  }, [invoice]);
+  }, [invoice, isMounted]);
 
   const loadInvoice = useCallback(() => {
     if (typeof window !== 'undefined') {
@@ -164,3 +174,5 @@ export const useInvoice = () => {
 };
 
 export type UseInvoiceReturn = ReturnType<typeof useInvoice>;
+
+    
