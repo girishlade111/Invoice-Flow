@@ -26,6 +26,7 @@ import {
   Palette,
   Sparkles,
   Type,
+  Wand,
 } from 'lucide-react';
 import type { UseInvoiceReturn } from '@/hooks/use-invoice';
 import { useToast } from '@/hooks/use-toast';
@@ -171,12 +172,15 @@ export function InvoiceForm({
             <SectionCard title="Settings" id="settings">
                 <div className="space-y-4">
                      <Field label="Template" htmlFor="template-select">
-                        <div className="grid grid-cols-2 gap-4">
-                            <Button variant={invoice.template === 'modern' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'modern')}>
+                        <div className="grid grid-cols-3 gap-2">
+                            <Button variant={invoice.template === 'modern' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'modern')} className="flex-1">
                                 <Sparkles className="mr-2 h-4 w-4" /> Modern
                             </Button>
-                             <Button variant={invoice.template === 'classic' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'classic')}>
+                             <Button variant={invoice.template === 'classic' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'classic')} className="flex-1">
                                 <Type className="mr-2 h-4 w-4" /> Classic
+                            </Button>
+                             <Button variant={invoice.template === 'creative' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'creative')} className="flex-1">
+                                <Wand className="mr-2 h-4 w-4" /> Creative
                             </Button>
                         </div>
                     </Field>
@@ -234,18 +238,17 @@ export function InvoiceForm({
             </SectionCard>
 
             <SectionCard title="Invoice Details" id="invoice-details">
-                <div className="grid grid-cols-1 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <Field label="Invoice #" htmlFor="invoiceNumber">
                         <Input id="invoiceNumber" value={invoice.invoiceNumber} onChange={(e) => handleFieldChange('invoiceNumber', e.target.value)} />
                     </Field>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                         <Field label="Date of Issue" htmlFor="date">
-                            <DatePicker date={invoice.date} setDate={(d) => handleFieldChange('date', d)} />
-                        </Field>
-                        <Field label="Due Date" htmlFor="dueDate">
-                            <DatePicker date={invoice.dueDate} setDate={(d) => handleFieldChange('dueDate', d)} />
-                        </Field>
-                    </div>
+                    <div />
+                    <Field label="Date of Issue" htmlFor="date">
+                        <DatePicker date={invoice.date} setDate={(d) => handleFieldChange('date', d)} />
+                    </Field>
+                    <Field label="Due Date" htmlFor="dueDate">
+                        <DatePicker date={invoice.dueDate} setDate={(d) => handleFieldChange('dueDate', d)} />
+                    </Field>
                 </div>
             </SectionCard>
 

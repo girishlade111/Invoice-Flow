@@ -6,7 +6,7 @@ export interface InvoiceItem {
 }
 
 export interface Invoice {
-  template: 'classic' | 'modern';
+  template: 'classic' | 'modern' | 'creative';
   logo?: string | null;
   invoiceNumber: string;
   fromName: string;
@@ -29,5 +29,3 @@ export interface Invoice {
   taxType: "percentage" | "fixed";
   taxValue: string;
 }
-
-    
