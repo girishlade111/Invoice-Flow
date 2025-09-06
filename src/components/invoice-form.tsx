@@ -147,37 +147,9 @@ export function InvoiceForm({
 
   return (
     <div className="space-y-6">
-        <Card>
-            <CardContent className="p-4 flex flex-wrap gap-2">
-                <Button onClick={handleDownload}><Download className="mr-2 h-4 w-4" /> Download</Button>
-                <Button variant="outline" onClick={handlePrint}><Printer className="mr-2 h-4 w-4" /> Print</Button>
-                <div className="flex-grow" />
-                <Button variant="outline" onClick={() => { saveInvoice(); toast({ title: "✅ Invoice Saved", description: "Your progress has been saved to local storage." }) }}><Save className="mr-2 h-4 w-4" /> Save</Button>
-                <Button variant="outline" onClick={() => { if(!loadInvoice()) { toast({ variant: "destructive", title: "❌ No Saved Data", description: "Could not find any saved invoice data."})} else { toast({ title: "✅ Invoice Loaded", description: "Your saved invoice has been loaded."}) } }} disabled={!isMounted}><FileUp className="mr-2 h-4 w-4" /> Load</Button>
-                <AlertDialog>
-                    <AlertDialogTrigger asChild>
-                        <Button variant="destructive"><RotateCcw className="mr-2 h-4 w-4" /> Reset</Button>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                        <AlertDialogHeader>
-                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            This action cannot be undone. This will permanently delete all your invoice data and reset the form.
-                        </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction onClick={() => { resetInvoice(); toast({ title: "🗑️ Form Reset", description: "All fields have been reset to their default values." }) }}>Continue</AlertDialogAction>
-                        </AlertDialogFooter>
-                    </AlertDialogContent>
-                </AlertDialog>
-            </CardContent>
-        </Card>
-
         <div className="space-y-8">
-            
             <SectionCard title="Company & Client" id="company-client">
-                <div className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-4">
                         <h3 className="font-semibold text-lg">From</h3>
                         <Field label="Your Logo" htmlFor="logo-upload">
@@ -426,10 +398,32 @@ export function InvoiceForm({
                 </div>
             </SectionCard>
         </div>
+        <Card>
+            <CardContent className="p-4 flex flex-wrap gap-2">
+                <Button onClick={handleDownload}><Download className="mr-2 h-4 w-4" /> Download</Button>
+                <Button variant="outline" onClick={handlePrint}><Printer className="mr-2 h-4 w-4" /> Print</Button>
+                <div className="flex-grow" />
+                <Button variant="outline" onClick={() => { saveInvoice(); toast({ title: "✅ Invoice Saved", description: "Your progress has been saved to local storage." }) }}><Save className="mr-2 h-4 w-4" /> Save</Button>
+                <Button variant="outline" onClick={() => { if(!loadInvoice()) { toast({ variant: "destructive", title: "❌ No Saved Data", description: "Could not find any saved invoice data."})} else { toast({ title: "✅ Invoice Loaded", description: "Your saved invoice has been loaded."}) } }} disabled={!isMounted}><FileUp className="mr-2 h-4 w-4" /> Load</Button>
+                <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                        <Button variant="destructive"><RotateCcw className="mr-2 h-4 w-4" /> Reset</Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                        <AlertDialogHeader>
+                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                            This action cannot be undone. This will permanently delete all your invoice data and reset the form.
+                        </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => { resetInvoice(); toast({ title: "🗑️ Form Reset", description: "All fields have been reset to their default values." }) }}>Continue</AlertDialogAction>
+                        </AlertDialogFooter>
+                    </AlertDialogContent>
+                </AlertDialog>
+            </CardContent>
+        </Card>
     </div>
   );
 }
-
-    
-
-    
