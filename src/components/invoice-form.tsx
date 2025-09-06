@@ -216,7 +216,7 @@ export function InvoiceForm({
             </SectionCard>
 
             <SectionCard title="Invoice Details" id="invoice-details">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     <Field label="Invoice #" htmlFor="invoiceNumber">
                         <Input id="invoiceNumber" value={invoice.invoiceNumber} onChange={(e) => handleFieldChange('invoiceNumber', e.target.value)} />
                     </Field>
