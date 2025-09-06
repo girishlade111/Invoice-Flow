@@ -262,14 +262,13 @@ export function InvoiceForm({
             </SectionCard>
 
             <SectionCard title="Invoice Details" id="invoice-details">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <Field label="Invoice #" htmlFor="invoiceNumber">
                         <Input id="invoiceNumber" value={invoice.invoiceNumber} onChange={(e) => handleFieldChange('invoiceNumber', e.target.value)} />
                     </Field>
                      <Field label="PO #" htmlFor="purchaseOrderNumber">
                         <Input id="purchaseOrderNumber" value={invoice.purchaseOrderNumber} onChange={(e) => handleFieldChange('purchaseOrderNumber', e.target.value)} />
                     </Field>
-                    <div/>
                     <Field label="Date of Issue" htmlFor="date">
                         <DatePicker date={invoice.date} setDate={(d) => handleFieldChange('date', d)} />
                     </Field>
@@ -295,46 +294,52 @@ export function InvoiceForm({
 
             <SectionCard title="Items" id="items">
                 <div className="space-y-4">
-                    {invoice.items.length > 0 && (
-                         <div className="hidden md:grid grid-cols-12 gap-2 items-end p-2 rounded-lg -mx-2">
-                            <div className="col-span-5 px-2">
-                                <Label className="text-xs font-bold uppercase text-muted-foreground">Description</Label>
-                            </div>
-                             <div className="col-span-2 px-2">
-                                <Label className="text-xs font-bold uppercase text-muted-foreground">Qty</Label>
-                            </div>
-                             <div className="col-span-2 px-2">
-                                <Label className="text-xs font-bold uppercase text-muted-foreground">Rate</Label>
-                            </div>
-                            <div className="col-span-2 text-right px-2">
-                               <Label className="text-xs font-bold uppercase text-muted-foreground">Total</Label>
-                            </div>
-                            <div className="col-span-1"></div>
-                        </div>
-                    )}
                     {invoice.items.map((item, index) => (
-                        <div key={item.id} className="grid grid-cols-12 gap-2 items-end">
-                            <div className="col-span-12 md:col-span-5">
-                                 <Label className="text-xs md:hidden mb-1">Description</Label>
-                                <Input id={`item-desc-${index}`} placeholder="Item name or description" value={item.description} onChange={(e) => handleItemChange(item.id, 'description', e.target.value)} />
+                        <div key={item.id} className="p-4 border rounded-lg relative space-y-3">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <Field label="Description" htmlFor={`item-desc-${index}`}>
+                                    <Input 
+                                        id={`item-desc-${index}`} 
+                                        placeholder="Item name or description" 
+                                        value={item.description} 
+                                        onChange={(e) => handleItemChange(item.id, 'description', e.target.value)} 
+                                    />
+                                </Field>
                             </div>
-                             <div className="col-span-4 md:col-span-2">
-                                 <Label className="text-xs md:hidden mb-1">Qty</Label>
-                                <Input id={`item-qty-${index}`} type="number" placeholder="1" value={item.quantity} onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} />
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                                <Field label="Quantity" htmlFor={`item-qty-${index}`}>
+                                    <Input 
+                                        id={`item-qty-${index}`} 
+                                        type="number" 
+                                        placeholder="1" 
+                                        value={item.quantity} 
+                                        onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} 
+                                    />
+                                </Field>
+                                <Field label="Rate" htmlFor={`item-rate-${index}`}>
+                                    <Input 
+                                        id={`item-rate-${index}`} 
+                                        type="number" 
+                                        placeholder="0.00" 
+                                        value={item.rate} 
+                                        onChange={(e) => handleItemChange(item.id, 'rate', e.target.value)} 
+                                    />
+                                </Field>
+                                <Field label="Total" htmlFor={`item-total-${index}`}>
+                                    <p className="font-semibold h-10 flex items-center">
+                                        {formatCurrency((parseFloat(item.quantity) || 0) * (parseFloat(item.rate) || 0))}
+                                    </p>
+                                </Field>
                             </div>
-                             <div className="col-span-4 md:col-span-2">
-                                  <Label className="text-xs md:hidden mb-1">Rate</Label>
-                                <Input id={`item-rate-${index}`} type="number" placeholder="0.00" value={item.rate} onChange={(e) => handleItemChange(item.id, 'rate', e.target.value)} />
-                            </div>
-                            <div className="col-span-3 md:col-span-2 text-right">
-                               <Label className="text-xs md:hidden mb-1">Total</Label>
-                               <p className="font-semibold h-10 flex items-center justify-end pr-3">{formatCurrency((parseFloat(item.quantity) || 0) * (parseFloat(item.rate) || 0))}</p>
-                            </div>
-                            <div className="col-span-1 flex items-center justify-center">
-                                <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)} className="text-muted-foreground hover:text-destructive">
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
-                            </div>
+                             <Button 
+                                variant="ghost" 
+                                size="icon" 
+                                onClick={() => removeItem(item.id)} 
+                                className="text-muted-foreground hover:text-destructive absolute top-2 right-2"
+                                aria-label="Remove item"
+                            >
+                                <Trash2 className="h-4 w-4" />
+                            </Button>
                         </div>
                     ))}
                     <Button onClick={addItem} variant="outline" className="mt-2"><PlusCircle className="mr-2 h-4 w-4" /> Add Item</Button>
@@ -343,15 +348,7 @@ export function InvoiceForm({
 
             <SectionCard title="Totals & Notes" id="totals-notes">
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <div className="space-y-6">
-                        <Field label="Notes" htmlFor="notes">
-                            <Textarea id="notes" placeholder="Any additional notes..." value={invoice.notes} onChange={(e) => handleFieldChange('notes', e.target.value)} rows={3}/>
-                        </Field>
-                        <Field label="Terms & Conditions" htmlFor="terms">
-                            <Textarea id="terms" placeholder="Payment terms, policies, etc." value={invoice.terms} onChange={(e) => handleFieldChange('terms', e.target.value)} rows={3}/>
-                        </Field>
-                    </div>
-                     <div className="space-y-4 self-start bg-muted/30 dark:bg-muted/20 p-6 rounded-lg">
+                    <div className="space-y-4 bg-muted/30 dark:bg-muted/20 p-6 rounded-lg order-2 md:order-1">
                         <div className="flex justify-between items-center">
                             <span className="text-muted-foreground">Subtotal</span>
                             <span className="font-semibold">{formatCurrency(calculatedTotals.subtotal)}</span>
@@ -399,6 +396,14 @@ export function InvoiceForm({
                             <span>Total</span>
                             <span>{formatCurrency(calculatedTotals.total)}</span>
                         </div>
+                    </div>
+                     <div className="space-y-6 order-1 md:order-2">
+                        <Field label="Notes" htmlFor="notes">
+                            <Textarea id="notes" placeholder="Any additional notes..." value={invoice.notes} onChange={(e) => handleFieldChange('notes', e.target.value)} rows={3}/>
+                        </Field>
+                        <Field label="Terms & Conditions" htmlFor="terms">
+                            <Textarea id="terms" placeholder="Payment terms, policies, etc." value={invoice.terms} onChange={(e) => handleFieldChange('terms', e.target.value)} rows={3}/>
+                        </Field>
                     </div>
                 </div>
             </SectionCard>
