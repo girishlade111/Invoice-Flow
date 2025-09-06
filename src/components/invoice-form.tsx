@@ -1,3 +1,4 @@
+
 'use client';
 
 import React, { useState } from 'react';
@@ -200,7 +201,7 @@ export function InvoiceForm({
             </SectionCard>
             
             <SectionCard title="Company & Client" id="company-client">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-8">
                     <div className="space-y-4">
                         <h3 className="font-semibold text-lg">From</h3>
                         <Field label="Your Logo" htmlFor="logo-upload">
@@ -411,3 +412,5 @@ export function InvoiceForm({
     </div>
   );
 }
+
+    
