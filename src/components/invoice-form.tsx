@@ -27,6 +27,7 @@ import {
   Sparkles,
   Type,
   Wand,
+  Briefcase,
 } from 'lucide-react';
 import type { UseInvoiceReturn } from '@/hooks/use-invoice';
 import { useToast } from '@/hooks/use-toast';
@@ -172,15 +173,18 @@ export function InvoiceForm({
             <SectionCard title="Settings" id="settings">
                 <div className="space-y-4">
                      <Field label="Template" htmlFor="template-select">
-                        <div className="grid grid-cols-3 gap-2">
-                            <Button variant={invoice.template === 'modern' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'modern')} className="flex-1">
-                                <Sparkles className="mr-2 h-4 w-4" /> Modern
-                            </Button>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                              <Button variant={invoice.template === 'classic' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'classic')} className="flex-1">
                                 <Type className="mr-2 h-4 w-4" /> Classic
                             </Button>
+                            <Button variant={invoice.template === 'modern' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'modern')} className="flex-1">
+                                <Sparkles className="mr-2 h-4 w-4" /> Modern
+                            </Button>
                              <Button variant={invoice.template === 'creative' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'creative')} className="flex-1">
                                 <Wand className="mr-2 h-4 w-4" /> Creative
+                            </Button>
+                            <Button variant={invoice.template === 'formal' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'formal')} className="flex-1">
+                                <Briefcase className="mr-2 h-4 w-4" /> Formal
                             </Button>
                         </div>
                     </Field>
@@ -188,7 +192,7 @@ export function InvoiceForm({
             </SectionCard>
             
             <SectionCard title="Company & Client" id="company-client">
-                <div className="grid grid-cols-1 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="space-y-4">
                         <h3 className="font-semibold text-lg">From</h3>
                         <Field label="Your Logo" htmlFor="logo-upload">
@@ -238,11 +242,10 @@ export function InvoiceForm({
             </SectionCard>
 
             <SectionCard title="Invoice Details" id="invoice-details">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <Field label="Invoice #" htmlFor="invoiceNumber">
                         <Input id="invoiceNumber" value={invoice.invoiceNumber} onChange={(e) => handleFieldChange('invoiceNumber', e.target.value)} />
                     </Field>
-                    <div />
                     <Field label="Date of Issue" htmlFor="date">
                         <DatePicker date={invoice.date} setDate={(d) => handleFieldChange('date', d)} />
                     </Field>
@@ -301,8 +304,16 @@ export function InvoiceForm({
             </SectionCard>
 
             <SectionCard title="Totals & Notes" id="totals-notes">
-                 <div className="flex flex-col gap-8">
-                     <div className="space-y-4 self-end w-full max-w-md bg-muted/30 dark:bg-muted/20 p-6 rounded-lg">
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div className="space-y-6">
+                        <Field label="Notes" htmlFor="notes">
+                            <Textarea id="notes" placeholder="Any additional notes..." value={invoice.notes} onChange={(e) => handleFieldChange('notes', e.target.value)} rows={3}/>
+                        </Field>
+                        <Field label="Terms & Conditions" htmlFor="terms">
+                            <Textarea id="terms" placeholder="Payment terms, policies, etc." value={invoice.terms} onChange={(e) => handleFieldChange('terms', e.target.value)} rows={3}/>
+                        </Field>
+                    </div>
+                     <div className="space-y-4 self-start bg-muted/30 dark:bg-muted/20 p-6 rounded-lg">
                         <div className="flex justify-between items-center">
                             <span className="text-muted-foreground">Subtotal</span>
                             <span className="font-semibold">{formatCurrency(calculatedTotals.subtotal)}</span>
@@ -350,14 +361,6 @@ export function InvoiceForm({
                             <span>Total</span>
                             <span>{formatCurrency(calculatedTotals.total)}</span>
                         </div>
-                    </div>
-                     <div className="space-y-6">
-                        <Field label="Notes" htmlFor="notes">
-                            <Textarea id="notes" placeholder="Any additional notes..." value={invoice.notes} onChange={(e) => handleFieldChange('notes', e.target.value)} rows={3}/>
-                        </Field>
-                        <Field label="Terms & Conditions" htmlFor="terms">
-                            <Textarea id="terms" placeholder="Payment terms, policies, etc." value={invoice.terms} onChange={(e) => handleFieldChange('terms', e.target.value)} rows={3}/>
-                        </Field>
                     </div>
                 </div>
             </SectionCard>

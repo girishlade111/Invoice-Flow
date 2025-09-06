@@ -6,7 +6,7 @@ export interface InvoiceItem {
 }
 
 export interface Invoice {
-  template: 'classic' | 'modern' | 'creative';
+  template: 'classic' | 'modern' | 'creative' | 'formal';
   logo?: string | null;
   invoiceNumber: string;
   fromName: string;

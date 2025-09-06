@@ -5,6 +5,7 @@ import type { Invoice as InvoiceType } from '@/types/invoice';
 import { InvoicePreviewClassic } from './invoice-preview-classic';
 import { InvoicePreviewModern } from './invoice-preview-modern';
 import { InvoicePreviewCreative } from './invoice-preview-creative';
+import { InvoicePreviewFormal } from './invoice-preview-formal';
 
 interface InvoicePreviewProps extends InvoiceType {
   calculatedTotals: {
@@ -25,6 +26,8 @@ const InvoicePreview = React.forwardRef<HTMLDivElement, InvoicePreviewProps>(
           return <InvoicePreviewModern ref={ref} {...props} />;
         case 'creative':
           return <InvoicePreviewCreative ref={ref} {...props} />;
+        case 'formal':
+          return <InvoicePreviewFormal ref={ref} {...props} />;
         case 'classic':
         default:
           return <InvoicePreviewClassic ref={ref} {...props} />;
