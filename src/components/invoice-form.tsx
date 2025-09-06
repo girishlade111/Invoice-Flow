@@ -30,6 +30,7 @@ import {
   Wand,
   Briefcase,
   Feather,
+  DollarSign,
 } from 'lucide-react';
 import type { UseInvoiceReturn } from '@/hooks/use-invoice';
 import { useToast } from '@/hooks/use-toast';
@@ -48,6 +49,7 @@ import jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
 import { cn } from '@/lib/utils';
 import { Building } from 'lucide-react';
+import { currencies } from '@/lib/currencies';
 
 type InvoiceFormProps = UseInvoiceReturn & {
   invoicePreviewRef: React.RefObject<HTMLDivElement>;
@@ -385,6 +387,20 @@ export function InvoiceForm({
 
             <SectionCard title="Settings" id="settings">
                 <div className="space-y-4">
+                    <Field label="Currency" htmlFor="currency-select">
+                        <Select value={invoice.currency} onValueChange={(v) => handleFieldChange('currency', v)}>
+                            <SelectTrigger id="currency-select">
+                                <SelectValue placeholder="Select currency" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {currencies.map((c) => (
+                                    <SelectItem key={c.code} value={c.code}>
+                                        {c.code} - {c.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </Field>
                      <Field label="Template" htmlFor="template-select">
                         <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
                              <Button variant={invoice.template === 'business' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'business')} className="flex-1">
@@ -413,5 +429,7 @@ export function InvoiceForm({
     </div>
   );
 }
+
+    
 
     

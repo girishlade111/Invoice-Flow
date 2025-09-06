@@ -1,3 +1,4 @@
+
 export interface InvoiceItem {
   id: string;
   description: string;
@@ -36,4 +37,7 @@ export interface Invoice {
   paymentBank: string;
   paymentAccountName: string;
   paymentAccountNumber: string;
+  currency: string;
 }
+
+    

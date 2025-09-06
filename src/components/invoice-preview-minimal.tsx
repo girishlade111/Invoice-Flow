@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -29,7 +30,8 @@ const InvoicePreviewMinimal = React.forwardRef<HTMLDivElement, InvoicePreviewPro
       paymentBank,
       paymentAccountName,
       paymentAccountNumber,
-      fromName
+      fromName,
+      currency,
     },
     ref
   ) => {
@@ -37,7 +39,7 @@ const InvoicePreviewMinimal = React.forwardRef<HTMLDivElement, InvoicePreviewPro
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: 'USD',
+        currency: currency,
         }).format(amount);
     };
       
@@ -149,3 +151,5 @@ const InvoicePreviewMinimal = React.forwardRef<HTMLDivElement, InvoicePreviewPro
 InvoicePreviewMinimal.displayName = 'InvoicePreviewMinimal';
 
 export { InvoicePreviewMinimal };
+
+    

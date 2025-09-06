@@ -1,3 +1,4 @@
+
 'use client';
 
 import React from 'react';
@@ -36,6 +37,7 @@ const InvoicePreviewFormal = React.forwardRef<HTMLDivElement, InvoicePreviewProp
       notes,
       terms,
       calculatedTotals,
+      currency,
     },
     ref
   ) => {
@@ -43,7 +45,7 @@ const InvoicePreviewFormal = React.forwardRef<HTMLDivElement, InvoicePreviewProp
     const formatCurrency = (amount: number) => {
         return new Intl.NumberFormat('en-US', {
         style: 'currency',
-        currency: 'USD',
+        currency: currency,
         }).format(amount);
     };
       
@@ -173,3 +175,5 @@ const InvoicePreviewFormal = React.forwardRef<HTMLDivElement, InvoicePreviewProp
 InvoicePreviewFormal.displayName = 'InvoicePreviewFormal';
 
 export { InvoicePreviewFormal };
+
+    

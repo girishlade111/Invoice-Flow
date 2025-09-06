@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useMemo, useCallback, useEffect } from 'react';
@@ -44,6 +45,7 @@ const getInitialInvoice = (): Invoice => ({
   paymentBank: 'Borcele Bank',
   paymentAccountName: 'Adeline Palmerston',
   paymentAccountNumber: '0123 4567 8901',
+  currency: 'USD',
 });
 
 // Create an empty initial state to avoid server/client mismatch
@@ -157,12 +159,12 @@ export const useInvoice = () => {
     }
   }, []);
 
-  const formatCurrency = (amount: number) => {
+  const formatCurrency = useCallback((amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD',
+      currency: invoice.currency,
     }).format(amount);
-  };
+  },[invoice.currency]);
   
   return {
     invoice,
@@ -182,3 +184,5 @@ export const useInvoice = () => {
 };
 
 export type UseInvoiceReturn = ReturnType<typeof useInvoice>;
+
+    
