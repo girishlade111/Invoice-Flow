@@ -136,7 +136,7 @@ export function InvoiceForm({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
         <Card>
             <CardContent className="p-4 flex flex-wrap gap-2">
                 <Button onClick={handleDownload}><Download className="mr-2 h-4 w-4" /> Download</Button>
@@ -165,7 +165,7 @@ export function InvoiceForm({
         </Card>
 
         <SectionCard title="Company & Client" id="company-client">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
                 <div className="space-y-4">
                     <h3 className="font-semibold text-lg">From</h3>
                     <Field label="Your Logo" htmlFor="logo-upload">
@@ -215,7 +215,7 @@ export function InvoiceForm({
         </SectionCard>
 
         <SectionCard title="Invoice Details" id="invoice-details">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
                 <Field label="Invoice #" htmlFor="invoiceNumber">
                     <Input id="invoiceNumber" value={invoice.invoiceNumber} onChange={(e) => handleFieldChange('invoiceNumber', e.target.value)} />
                 </Field>
@@ -231,17 +231,17 @@ export function InvoiceForm({
         <SectionCard title="Items" id="items">
             <div className="space-y-4">
                 {invoice.items.length > 0 && (
-                     <div className="grid grid-cols-12 gap-2 items-end p-2 rounded-lg">
-                        <div className="col-span-12 md:col-span-5">
+                     <div className="grid grid-cols-12 gap-2 items-end p-2 rounded-lg -mx-2">
+                        <div className="col-span-12 md:col-span-5 px-2">
                             <Label className="text-xs font-bold uppercase text-muted-foreground">Description</Label>
                         </div>
-                         <div className="col-span-4 md:col-span-2">
+                         <div className="col-span-4 md:col-span-2 px-2">
                             <Label className="text-xs font-bold uppercase text-muted-foreground">Qty</Label>
                         </div>
-                         <div className="col-span-4 md:col-span-2">
+                         <div className="col-span-4 md:col-span-2 px-2">
                             <Label className="text-xs font-bold uppercase text-muted-foreground">Rate</Label>
                         </div>
-                        <div className="col-span-3 md:col-span-2 text-right">
+                        <div className="col-span-3 md:col-span-2 text-right px-2">
                            <Label className="text-xs font-bold uppercase text-muted-foreground">Total</Label>
                         </div>
                         <div className="col-span-1"></div>
@@ -273,8 +273,8 @@ export function InvoiceForm({
         </SectionCard>
 
         <SectionCard title="Totals & Notes" id="totals-notes">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div className="space-y-6">
                     <Field label="Notes" htmlFor="notes">
                         <Textarea id="notes" placeholder="Any additional notes..." value={invoice.notes} onChange={(e) => handleFieldChange('notes', e.target.value)} rows={3}/>
                     </Field>
