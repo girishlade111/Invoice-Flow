@@ -216,16 +216,18 @@ export function InvoiceForm({
             </SectionCard>
 
             <SectionCard title="Invoice Details" id="invoice-details">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 gap-6">
                     <Field label="Invoice #" htmlFor="invoiceNumber">
                         <Input id="invoiceNumber" value={invoice.invoiceNumber} onChange={(e) => handleFieldChange('invoiceNumber', e.target.value)} />
                     </Field>
-                    <Field label="Date of Issue" htmlFor="date">
-                        <DatePicker date={invoice.date} setDate={(d) => handleFieldChange('date', d)} />
-                    </Field>
-                    <Field label="Due Date" htmlFor="dueDate">
-                        <DatePicker date={invoice.dueDate} setDate={(d) => handleFieldChange('dueDate', d)} />
-                    </Field>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <Field label="Date of Issue" htmlFor="date">
+                            <DatePicker date={invoice.date} setDate={(d) => handleFieldChange('date', d)} />
+                        </Field>
+                        <Field label="Due Date" htmlFor="dueDate">
+                            <DatePicker date={invoice.dueDate} setDate={(d) => handleFieldChange('dueDate', d)} />
+                        </Field>
+                    </div>
                 </div>
             </SectionCard>
 
