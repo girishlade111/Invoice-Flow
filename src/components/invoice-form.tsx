@@ -136,7 +136,7 @@ export function InvoiceForm({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
         <Card>
             <CardContent className="p-4 flex flex-wrap gap-2">
                 <Button onClick={handleDownload}><Download className="mr-2 h-4 w-4" /> Download</Button>
@@ -230,32 +230,45 @@ export function InvoiceForm({
 
         <SectionCard title="Items" id="items">
             <div className="space-y-4">
-                {invoice.items.map((item, index) => (
-                    <div key={item.id} className="grid grid-cols-12 gap-2 items-end p-2 rounded-lg bg-muted/30 dark:bg-muted/20">
+                {invoice.items.length > 0 && (
+                     <div className="grid grid-cols-12 gap-2 items-end p-2 rounded-lg">
                         <div className="col-span-12 md:col-span-5">
-                            <Label htmlFor={`item-desc-${index}`} className="text-xs">Description</Label>
+                            <Label className="text-xs font-bold uppercase text-muted-foreground">Description</Label>
+                        </div>
+                         <div className="col-span-4 md:col-span-2">
+                            <Label className="text-xs font-bold uppercase text-muted-foreground">Qty</Label>
+                        </div>
+                         <div className="col-span-4 md:col-span-2">
+                            <Label className="text-xs font-bold uppercase text-muted-foreground">Rate</Label>
+                        </div>
+                        <div className="col-span-3 md:col-span-2 text-right">
+                           <Label className="text-xs font-bold uppercase text-muted-foreground">Total</Label>
+                        </div>
+                        <div className="col-span-1"></div>
+                    </div>
+                )}
+                {invoice.items.map((item, index) => (
+                    <div key={item.id} className="grid grid-cols-12 gap-2 items-end">
+                        <div className="col-span-12 md:col-span-5">
                             <Input id={`item-desc-${index}`} placeholder="Item name or description" value={item.description} onChange={(e) => handleItemChange(item.id, 'description', e.target.value)} />
                         </div>
                          <div className="col-span-4 md:col-span-2">
-                            <Label htmlFor={`item-qty-${index}`} className="text-xs">Qty</Label>
                             <Input id={`item-qty-${index}`} type="number" placeholder="1" value={item.quantity} onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} />
                         </div>
                          <div className="col-span-4 md:col-span-2">
-                            <Label htmlFor={`item-rate-${index}`} className="text-xs">Rate</Label>
                             <Input id={`item-rate-${index}`} type="number" placeholder="0.00" value={item.rate} onChange={(e) => handleItemChange(item.id, 'rate', e.target.value)} />
                         </div>
                         <div className="col-span-3 md:col-span-2 text-right">
-                           <Label className="text-xs">Total</Label>
                            <p className="font-semibold h-10 flex items-center justify-end pr-3">{formatCurrency((parseFloat(item.quantity) || 0) * (parseFloat(item.rate) || 0))}</p>
                         </div>
-                        <div className="col-span-1 flex items-center">
+                        <div className="col-span-1 flex items-center justify-center">
                             <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)} className="text-muted-foreground hover:text-destructive">
                                 <Trash2 className="h-4 w-4" />
                             </Button>
                         </div>
                     </div>
                 ))}
-                <Button onClick={addItem} variant="outline"><PlusCircle className="mr-2 h-4 w-4" /> Add Item</Button>
+                <Button onClick={addItem} variant="outline" className="mt-2"><PlusCircle className="mr-2 h-4 w-4" /> Add Item</Button>
             </div>
         </SectionCard>
 
@@ -263,23 +276,23 @@ export function InvoiceForm({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-4">
                     <Field label="Notes" htmlFor="notes">
-                        <Textarea id="notes" placeholder="Any additional notes..." value={invoice.notes} onChange={(e) => handleFieldChange('notes', e.target.value)} />
+                        <Textarea id="notes" placeholder="Any additional notes..." value={invoice.notes} onChange={(e) => handleFieldChange('notes', e.target.value)} rows={3}/>
                     </Field>
                     <Field label="Terms & Conditions" htmlFor="terms">
-                        <Textarea id="terms" placeholder="Payment terms, policies, etc." value={invoice.terms} onChange={(e) => handleFieldChange('terms', e.target.value)} />
+                        <Textarea id="terms" placeholder="Payment terms, policies, etc." value={invoice.terms} onChange={(e) => handleFieldChange('terms', e.target.value)} rows={3}/>
                     </Field>
                 </div>
-                <div className="space-y-2 bg-muted/30 dark:bg-muted/20 p-4 rounded-lg">
+                <div className="space-y-4 bg-muted/30 dark:bg-muted/20 p-6 rounded-lg">
                     <div className="flex justify-between items-center">
-                        <span>Subtotal</span>
+                        <span className="text-muted-foreground">Subtotal</span>
                         <span className="font-semibold">{formatCurrency(calculatedTotals.subtotal)}</span>
                     </div>
-                    <Separator />
-                    <div className="flex justify-between items-center gap-2">
+                    
+                    <div className="flex justify-between items-center">
                         <div className="flex items-center gap-2">
-                            <span>Discount</span>
+                            <Label>Discount</Label>
                             <Select value={invoice.discountType} onValueChange={(v) => handleFieldChange('discountType', v)}>
-                                <SelectTrigger className="w-[120px] h-8 text-xs">
+                                <SelectTrigger className="w-[80px] h-8 text-xs">
                                     <SelectValue placeholder="Type" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -288,18 +301,17 @@ export function InvoiceForm({
                                 </SelectContent>
                             </Select>
                         </div>
-                        <Input type="number" value={invoice.discountValue} onChange={(e) => handleFieldChange('discountValue', e.target.value)} className="w-24 h-8 text-right" />
-                    </div>
-                    <div className="flex justify-between items-center text-muted-foreground text-sm">
-                        <span></span>
-                        <span>- {formatCurrency(calculatedTotals.discountAmount)}</span>
-                    </div>
-                    <Separator />
-                    <div className="flex justify-between items-center gap-2">
                         <div className="flex items-center gap-2">
-                            <span>Tax</span>
+                            <Input type="number" value={invoice.discountValue} onChange={(e) => handleFieldChange('discountValue', e.target.value)} className="w-24 h-8 text-right" />
+                            <span className="text-muted-foreground text-sm w-24 text-right">(-{formatCurrency(calculatedTotals.discountAmount)})</span>
+                        </div>
+                    </div>
+                    
+                    <div className="flex justify-between items-center">
+                       <div className="flex items-center gap-2">
+                            <Label>Tax</Label>
                              <Select value={invoice.taxType} onValueChange={(v) => handleFieldChange('taxType', v)}>
-                                <SelectTrigger className="w-[120px] h-8 text-xs">
+                                <SelectTrigger className="w-[80px] h-8 text-xs">
                                     <SelectValue placeholder="Type" />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -308,11 +320,10 @@ export function InvoiceForm({
                                 </SelectContent>
                             </Select>
                         </div>
-                        <Input type="number" value={invoice.taxValue} onChange={(e) => handleFieldChange('taxValue', e.target.value)} className="w-24 h-8 text-right" />
-                    </div>
-                    <div className="flex justify-between items-center text-muted-foreground text-sm">
-                        <span></span>
-                        <span>+ {formatCurrency(calculatedTotals.taxAmount)}</span>
+                        <div className="flex items-center gap-2">
+                            <Input type="number" value={invoice.taxValue} onChange={(e) => handleFieldChange('taxValue', e.target.value)} className="w-24 h-8 text-right" />
+                             <span className="text-muted-foreground text-sm w-24 text-right">(+{formatCurrency(calculatedTotals.taxAmount)})</span>
+                        </div>
                     </div>
                     <Separator />
                     <div className="flex justify-between items-center font-bold text-lg text-primary">
