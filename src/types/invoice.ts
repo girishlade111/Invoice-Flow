@@ -6,19 +6,24 @@ export interface InvoiceItem {
 }
 
 export interface Invoice {
-  template: 'classic' | 'modern' | 'creative' | 'formal' | 'minimal';
+  template: 'classic' | 'modern' | 'creative' | 'formal' | 'minimal' | 'business';
   logo?: string | null;
   invoiceNumber: string;
+  purchaseOrderNumber: string;
   fromName: string;
   fromCompany: string;
   fromAddress: string;
   fromCityStateZip: string;
   fromCountry: string;
+  fromPhone: string;
+  fromEmail: string;
   toName: string;
   toCompany: string;
   toAddress: string;
   toCityStateZip: string;
   toCountry: string;
+  toPhone: string;
+  toEmail: string;
   date: Date;
   dueDate: Date;
   items: InvoiceItem[];

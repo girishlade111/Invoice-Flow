@@ -46,6 +46,7 @@ import {
 import jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
 import { cn } from '@/lib/utils';
+import { Building } from 'lucide-react';
 
 type InvoiceFormProps = UseInvoiceReturn & {
   invoicePreviewRef: React.RefObject<HTMLDivElement>;
@@ -174,7 +175,10 @@ export function InvoiceForm({
             <SectionCard title="Settings" id="settings">
                 <div className="space-y-4">
                      <Field label="Template" htmlFor="template-select">
-                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                             <Button variant={invoice.template === 'business' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'business')} className="flex-1">
+                                <Building className="mr-2 h-4 w-4" /> Business
+                            </Button>
                              <Button variant={invoice.template === 'classic' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'classic')} className="flex-1">
                                 <Type className="mr-2 h-4 w-4" /> Classic
                             </Button>
@@ -223,6 +227,12 @@ export function InvoiceForm({
                         <Field label="Country" htmlFor="fromCountry">
                             <Input id="fromCountry" value={invoice.fromCountry} onChange={(e) => handleFieldChange('fromCountry', e.target.value)} />
                         </Field>
+                        <Field label="Phone Number" htmlFor="fromPhone">
+                            <Input id="fromPhone" value={invoice.fromPhone} onChange={(e) => handleFieldChange('fromPhone', e.target.value)} />
+                        </Field>
+                        <Field label="Email" htmlFor="fromEmail">
+                            <Input id="fromEmail" value={invoice.fromEmail} onChange={(e) => handleFieldChange('fromEmail', e.target.value)} />
+                        </Field>
                     </div>
                      <div className="space-y-4">
                         <h3 className="font-semibold text-lg">To</h3>
@@ -241,6 +251,12 @@ export function InvoiceForm({
                          <Field label="Client's Country" htmlFor="toCountry">
                             <Input id="toCountry" value={invoice.toCountry} onChange={(e) => handleFieldChange('toCountry', e.target.value)} />
                         </Field>
+                        <Field label="Client's Phone" htmlFor="toPhone">
+                            <Input id="toPhone" value={invoice.toPhone} onChange={(e) => handleFieldChange('toPhone', e.target.value)} />
+                        </Field>
+                        <Field label="Client's Email" htmlFor="toEmail">
+                            <Input id="toEmail" value={invoice.toEmail} onChange={(e) => handleFieldChange('toEmail', e.target.value)} />
+                        </Field>
                     </div>
                 </div>
             </SectionCard>
@@ -250,6 +266,10 @@ export function InvoiceForm({
                     <Field label="Invoice #" htmlFor="invoiceNumber">
                         <Input id="invoiceNumber" value={invoice.invoiceNumber} onChange={(e) => handleFieldChange('invoiceNumber', e.target.value)} />
                     </Field>
+                     <Field label="PO #" htmlFor="purchaseOrderNumber">
+                        <Input id="purchaseOrderNumber" value={invoice.purchaseOrderNumber} onChange={(e) => handleFieldChange('purchaseOrderNumber', e.target.value)} />
+                    </Field>
+                    <div/>
                     <Field label="Date of Issue" htmlFor="date">
                         <DatePicker date={invoice.date} setDate={(d) => handleFieldChange('date', d)} />
                     </Field>
