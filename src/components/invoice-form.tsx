@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { DatePicker } from '@/components/ui/date-picker';
 import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
 import {
   Select,
   SelectContent,
@@ -24,8 +23,9 @@ import {
   FileUp,
   RotateCcw,
   PlusCircle,
-  Calendar,
   Palette,
+  Sparkles,
+  Type,
 } from 'lucide-react';
 import type { UseInvoiceReturn } from '@/hooks/use-invoice';
 import { useToast } from '@/hooks/use-toast';
@@ -42,6 +42,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import jspdf from 'jspdf';
 import html2canvas from 'html2canvas';
+import { cn } from '@/lib/utils';
 
 type InvoiceFormProps = UseInvoiceReturn & {
   invoicePreviewRef: React.RefObject<HTMLDivElement>;
@@ -169,23 +170,21 @@ export function InvoiceForm({
         <div className="space-y-8">
             <SectionCard title="Settings" id="settings">
                 <div className="space-y-4">
-                    <Field label="Template" htmlFor="template-select">
-                        <Select value={invoice.template} onValueChange={(v) => handleFieldChange('template', v)}>
-                            <SelectTrigger id="template-select">
-                                <Palette className="mr-2 h-4 w-4" />
-                                <SelectValue placeholder="Select a template" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="modern">Modern</SelectItem>
-                                <SelectItem value="classic">Classic</SelectItem>
-                            </SelectContent>
-                        </Select>
+                     <Field label="Template" htmlFor="template-select">
+                        <div className="grid grid-cols-2 gap-4">
+                            <Button variant={invoice.template === 'modern' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'modern')}>
+                                <Sparkles className="mr-2 h-4 w-4" /> Modern
+                            </Button>
+                             <Button variant={invoice.template === 'classic' ? 'default' : 'outline'} onClick={() => handleFieldChange('template', 'classic')}>
+                                <Type className="mr-2 h-4 w-4" /> Classic
+                            </Button>
+                        </div>
                     </Field>
                 </div>
             </SectionCard>
-
+            
             <SectionCard title="Company & Client" id="company-client">
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="grid grid-cols-1 gap-8">
                     <div className="space-y-4">
                         <h3 className="font-semibold text-lg">From</h3>
                         <Field label="Your Logo" htmlFor="logo-upload">
@@ -235,12 +234,12 @@ export function InvoiceForm({
             </SectionCard>
 
             <SectionCard title="Invoice Details" id="invoice-details">
-                <div className="space-y-6">
+                <div className="grid grid-cols-1 gap-6">
                     <Field label="Invoice #" htmlFor="invoiceNumber">
                         <Input id="invoiceNumber" value={invoice.invoiceNumber} onChange={(e) => handleFieldChange('invoiceNumber', e.target.value)} />
                     </Field>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <Field label="Date of Issue" htmlFor="date">
+                         <Field label="Date of Issue" htmlFor="date">
                             <DatePicker date={invoice.date} setDate={(d) => handleFieldChange('date', d)} />
                         </Field>
                         <Field label="Due Date" htmlFor="dueDate">
@@ -253,17 +252,17 @@ export function InvoiceForm({
             <SectionCard title="Items" id="items">
                 <div className="space-y-4">
                     {invoice.items.length > 0 && (
-                         <div className="grid grid-cols-12 gap-2 items-end p-2 rounded-lg -mx-2">
-                            <div className="col-span-12 md:col-span-5 px-2">
+                         <div className="hidden md:grid grid-cols-12 gap-2 items-end p-2 rounded-lg -mx-2">
+                            <div className="col-span-5 px-2">
                                 <Label className="text-xs font-bold uppercase text-muted-foreground">Description</Label>
                             </div>
-                             <div className="col-span-4 md:col-span-2 px-2">
+                             <div className="col-span-2 px-2">
                                 <Label className="text-xs font-bold uppercase text-muted-foreground">Qty</Label>
                             </div>
-                             <div className="col-span-4 md:col-span-2 px-2">
+                             <div className="col-span-2 px-2">
                                 <Label className="text-xs font-bold uppercase text-muted-foreground">Rate</Label>
                             </div>
-                            <div className="col-span-3 md:col-span-2 text-right px-2">
+                            <div className="col-span-2 text-right px-2">
                                <Label className="text-xs font-bold uppercase text-muted-foreground">Total</Label>
                             </div>
                             <div className="col-span-1"></div>
@@ -272,15 +271,19 @@ export function InvoiceForm({
                     {invoice.items.map((item, index) => (
                         <div key={item.id} className="grid grid-cols-12 gap-2 items-end">
                             <div className="col-span-12 md:col-span-5">
+                                 <Label className="text-xs md:hidden mb-1">Description</Label>
                                 <Input id={`item-desc-${index}`} placeholder="Item name or description" value={item.description} onChange={(e) => handleItemChange(item.id, 'description', e.target.value)} />
                             </div>
                              <div className="col-span-4 md:col-span-2">
+                                 <Label className="text-xs md:hidden mb-1">Qty</Label>
                                 <Input id={`item-qty-${index}`} type="number" placeholder="1" value={item.quantity} onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} />
                             </div>
                              <div className="col-span-4 md:col-span-2">
+                                  <Label className="text-xs md:hidden mb-1">Rate</Label>
                                 <Input id={`item-rate-${index}`} type="number" placeholder="0.00" value={item.rate} onChange={(e) => handleItemChange(item.id, 'rate', e.target.value)} />
                             </div>
                             <div className="col-span-3 md:col-span-2 text-right">
+                               <Label className="text-xs md:hidden mb-1">Total</Label>
                                <p className="font-semibold h-10 flex items-center justify-end pr-3">{formatCurrency((parseFloat(item.quantity) || 0) * (parseFloat(item.rate) || 0))}</p>
                             </div>
                             <div className="col-span-1 flex items-center justify-center">
@@ -359,5 +362,3 @@ export function InvoiceForm({
     </div>
   );
 }
-
-    
