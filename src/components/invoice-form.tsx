@@ -136,7 +136,7 @@ export function InvoiceForm({
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
         <Card>
             <CardContent className="p-4 flex flex-wrap gap-2">
                 <Button onClick={handleDownload}><Download className="mr-2 h-4 w-4" /> Download</Button>
@@ -215,7 +215,7 @@ export function InvoiceForm({
         </SectionCard>
 
         <SectionCard title="Invoice Details" id="invoice-details">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-6">
                 <Field label="Invoice #" htmlFor="invoiceNumber">
                     <Input id="invoiceNumber" value={invoice.invoiceNumber} onChange={(e) => handleFieldChange('invoiceNumber', e.target.value)} />
                 </Field>
