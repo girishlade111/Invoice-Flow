@@ -32,8 +32,16 @@ const getInitialInvoice = (): Invoice => ({
   taxValue: '0',
 });
 
+// Create an empty initial state to avoid server/client mismatch
+const getEmptyInvoice = (): Invoice => ({
+    ...getInitialInvoice(),
+    date: new Date(0), // Use a fixed date on server
+    dueDate: new Date(0),
+    items: [],
+  });
+
 export const useInvoice = () => {
-  const [invoice, setInvoice] = useState<Invoice>(getInitialInvoice());
+  const [invoice, setInvoice] = useState<Invoice>(getEmptyInvoice());
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
