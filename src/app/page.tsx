@@ -42,6 +42,20 @@ export default function Home() {
     setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
+  const AdContainer = ({
+    title,
+    className,
+  }: {
+    title: string;
+    className?: string;
+  }) => (
+    <div
+      className={`flex items-center justify-center w-full h-24 bg-muted/40 border border-dashed rounded-lg my-4 ${className}`}
+    >
+      <p className="text-muted-foreground text-sm">{title}</p>
+    </div>
+  );
+
   return (
     <div className="flex h-screen w-full flex-col bg-background">
       <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-card px-4 md:px-8 no-print">
@@ -118,6 +132,10 @@ export default function Home() {
         <div className="flex-1 no-print">
           <ScrollArea className="h-full">
             <div className="p-6 xl:p-8 max-w-4xl mx-auto">
+              <AdContainer
+                title="Leaderboard Ad (728x90)"
+                className="h-24 hidden md:flex"
+              />
               <InvoiceForm
                 {...invoiceState}
                 invoicePreviewRef={invoicePreviewRef}
@@ -126,13 +144,19 @@ export default function Home() {
           </ScrollArea>
         </div>
         <div className="bg-muted/40 dark:bg-muted/20 flex justify-center print-container py-6 xl:py-8">
-            <div className="w-full max-w-[8.5in] p-4">
-              <InvoicePreview
-                ref={invoicePreviewRef}
-                {...invoiceState.invoice}
-                calculatedTotals={invoiceState.calculatedTotals}
-              />
-            </div>
+          <div className="w-full max-w-[8.5in] p-4">
+            <InvoicePreview
+              ref={invoicePreviewRef}
+              {...invoiceState.invoice}
+              calculatedTotals={invoiceState.calculatedTotals}
+            />
+          </div>
+        </div>
+        <div className="no-print p-6 xl:p-8 max-w-4xl mx-auto w-full">
+          <AdContainer
+            title="Footer Leaderboard Ad (728x90)"
+            className="h-24 hidden md:flex"
+          />
         </div>
       </main>
     </div>

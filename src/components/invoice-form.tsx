@@ -71,6 +71,20 @@ const Field: React.FC<React.PropsWithChildren<{ label: string; htmlFor: string }
     </div>
 )
 
+const AdContainer = ({
+    title,
+    className,
+  }: {
+    title: string;
+    className?: string;
+  }) => (
+    <div
+      className={`flex items-center justify-center w-full h-60 bg-muted/40 border border-dashed rounded-lg my-6 ${className}`}
+    >
+      <p className="text-muted-foreground text-sm">{title}</p>
+    </div>
+  );
+
 export function InvoiceForm({
   invoice,
   updateInvoice,
@@ -240,45 +254,53 @@ export function InvoiceForm({
                     </Field>
                 </div>
             </SectionCard>
+            
+            <AdContainer title="Medium Rectangle Ad (300x250)" />
 
             <SectionCard title="Items" id="items">
                 <div className="space-y-4">
+                    <div className="hidden md:grid grid-cols-12 gap-2 items-end p-2 rounded-lg -mx-2">
+                        <Label className="col-span-6">Description</Label>
+                        <Label className="col-span-2">Quantity</Label>
+                        <Label className="col-span-2">Rate</Label>
+                        <Label className="col-span-2 text-right">Total</Label>
+                    </div>
                     {invoice.items.map((item, index) => (
-                        <div key={item.id} className="p-4 border rounded-lg relative space-y-3">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <Field label="Description" htmlFor={`item-desc-${index}`}>
-                                    <Input 
-                                        id={`item-desc-${index}`} 
-                                        placeholder="Item name or description" 
-                                        value={item.description} 
-                                        onChange={(e) => handleItemChange(item.id, 'description', e.target.value)} 
-                                    />
-                                </Field>
+                        <div key={item.id} className="p-4 border rounded-lg relative space-y-3 md:space-y-0 md:grid md:grid-cols-12 md:gap-4 md:items-center">
+                            <div className="md:col-span-6 space-y-2">
+                                <Label htmlFor={`item-desc-${index}`} className="md:hidden">Description</Label>
+                                <Input 
+                                    id={`item-desc-${index}`} 
+                                    placeholder="Item name or description" 
+                                    value={item.description} 
+                                    onChange={(e) => handleItemChange(item.id, 'description', e.target.value)} 
+                                />
                             </div>
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                                <Field label="Quantity" htmlFor={`item-qty-${index}`}>
-                                    <Input 
-                                        id={`item-qty-${index}`} 
-                                        type="number" 
-                                        placeholder="1" 
-                                        value={item.quantity} 
-                                        onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} 
-                                    />
-                                </Field>
-                                <Field label="Rate" htmlFor={`item-rate-${index}`}>
-                                    <Input 
-                                        id={`item-rate-${index}`} 
-                                        type="number" 
-                                        placeholder="0.00" 
-                                        value={item.rate} 
-                                        onChange={(e) => handleItemChange(item.id, 'rate', e.target.value)} 
-                                    />
-                                </Field>
-                                <Field label="Total" htmlFor={`item-total-${index}`}>
-                                    <p className="font-semibold h-10 flex items-center">
-                                        {formatCurrency((parseFloat(item.quantity) || 0) * (parseFloat(item.rate) || 0))}
-                                    </p>
-                                </Field>
+                            <div className="md:col-span-2 space-y-2">
+                                <Label htmlFor={`item-qty-${index}`} className="md:hidden">Quantity</Label>
+                                <Input 
+                                    id={`item-qty-${index}`} 
+                                    type="number" 
+                                    placeholder="1" 
+                                    value={item.quantity} 
+                                    onChange={(e) => handleItemChange(item.id, 'quantity', e.target.value)} 
+                                />
+                            </div>
+                            <div className="md:col-span-2 space-y-2">
+                                <Label htmlFor={`item-rate-${index}`} className="md:hidden">Rate</Label>
+                                <Input 
+                                    id={`item-rate-${index}`} 
+                                    type="number" 
+                                    placeholder="0.00" 
+                                    value={item.rate} 
+                                    onChange={(e) => handleItemChange(item.id, 'rate', e.target.value)} 
+                                />
+                            </div>
+                            <div className="md:col-span-2 space-y-2 text-right">
+                                <Label className="md:hidden">Total</Label>
+                                <p className="font-semibold h-10 flex items-center justify-end md:justify-end">
+                                    {formatCurrency((parseFloat(item.quantity) || 0) * (parseFloat(item.rate) || 0))}
+                                </p>
                             </div>
                              <Button 
                                 variant="ghost" 
