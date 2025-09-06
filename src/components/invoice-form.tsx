@@ -347,7 +347,7 @@ export function InvoiceForm({
             </SectionCard>
 
             <SectionCard title="Totals & Notes" id="totals-notes">
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                 <div className="flex flex-col gap-8">
                     <div className="space-y-4 bg-muted/30 dark:bg-muted/20 p-6 rounded-lg">
                         <div className="flex justify-between items-center">
                             <span className="text-muted-foreground">Subtotal</span>
