@@ -3,14 +3,7 @@
 import { useState, useMemo, useCallback, useEffect } from 'react';
 import type { Invoice, InvoiceItem } from '@/types/invoice';
 
-const initialItem: InvoiceItem = {
-  id: crypto.randomUUID(),
-  description: '',
-  quantity: '1',
-  rate: '0.00',
-};
-
-const initialInvoice: Invoice = {
+const getInitialInvoice = (): Invoice => ({
   logo: null,
   invoiceNumber: 'INV-001',
   fromName: 'Your Name',
@@ -25,22 +18,35 @@ const initialInvoice: Invoice = {
   toCountry: 'United States',
   date: new Date(),
   dueDate: new Date(new Date().setDate(new Date().getDate() + 30)),
-  items: [initialItem],
+  items: [{
+    id: crypto.randomUUID(),
+    description: '',
+    quantity: '1',
+    rate: '0.00',
+  }],
   notes: 'Thanks for your business!',
   terms: 'Payment due within 30 days.',
   discountType: 'percentage',
   discountValue: '0',
   taxType: 'percentage',
   taxValue: '0',
-};
+});
 
 export const useInvoice = () => {
-  const [invoice, setInvoice] = useState<Invoice>(initialInvoice);
+  const [invoice, setInvoice] = useState<Invoice>(getInitialInvoice());
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    const savedData = localStorage.getItem('invoiceData');
+    if (savedData) {
+        const parsed = JSON.parse(savedData);
+        parsed.date = new Date(parsed.date);
+        parsed.dueDate = new Date(parsed.dueDate);
+        setInvoice(parsed);
+    } else {
+        setInvoice(getInitialInvoice());
+    }
     setIsMounted(true);
-    loadInvoice();
   }, []);
 
   const updateInvoice = useCallback((updates: Partial<Invoice>) => {
@@ -119,7 +125,7 @@ export const useInvoice = () => {
   }, []);
 
   const resetInvoice = useCallback(() => {
-    setInvoice(initialInvoice);
+    setInvoice(getInitialInvoice());
     if (typeof window !== 'undefined') {
       localStorage.removeItem('invoiceData');
     }
