@@ -4,10 +4,10 @@
 import { InvoiceForm } from '@/components/invoice-form';
 import { InvoicePreview } from '@/components/invoice-preview';
 import { useInvoice } from '@/hooks/use-invoice';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Button } from '@/components/ui/button';
-import { Menu } from 'lucide-react';
+import { Menu, Moon, Sun } from 'lucide-react';
 import {
   Sheet,
   SheetContent,
@@ -20,6 +20,27 @@ import {
 export default function Home() {
   const invoiceState = useInvoice();
   const invoicePreviewRef = useRef<HTMLDivElement>(null);
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  };
 
   return (
     <div className="flex h-screen w-full flex-col bg-background">
@@ -56,34 +77,41 @@ export default function Home() {
           <h1 className="text-xl font-bold text-foreground">InvoiceFlow</h1>
         </div>
 
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="lg:hidden">
-              <Menu className="h-5 w-5" />
-              <span className="sr-only">Open Invoice Form</span>
-            </Button>
-          </SheetTrigger>
-          <SheetContent
-            side="left"
-            className="lg:hidden w-full max-w-md p-0 flex flex-col"
-          >
-            <SheetHeader className="p-6 pb-0">
-              <SheetTitle>Invoice Editor</SheetTitle>
-              <SheetDescription>
-                Fill out the form below to create your invoice. The preview on
-                the right will update in real-time.
-              </SheetDescription>
-            </SheetHeader>
-            <ScrollArea className="h-full">
-              <div className="p-6">
-                <InvoiceForm
-                  {...invoiceState}
-                  invoicePreviewRef={invoicePreviewRef}
-                />
-              </div>
-            </ScrollArea>
-          </SheetContent>
-        </Sheet>
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="icon" onClick={toggleTheme}>
+            <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+            <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+            <span className="sr-only">Toggle theme</span>
+          </Button>
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="outline" size="icon" className="lg:hidden">
+                <Menu className="h-5 w-5" />
+                <span className="sr-only">Open Invoice Form</span>
+              </Button>
+            </SheetTrigger>
+            <SheetContent
+              side="left"
+              className="lg:hidden w-full max-w-md p-0 flex flex-col"
+            >
+              <SheetHeader className="p-6 pb-0">
+                <SheetTitle>Invoice Editor</SheetTitle>
+                <SheetDescription>
+                  Fill out the form below to create your invoice. The preview on
+                  the right will update in real-time.
+                </SheetDescription>
+              </SheetHeader>
+              <ScrollArea className="h-full">
+                <div className="p-6">
+                  <InvoiceForm
+                    {...invoiceState}
+                    invoicePreviewRef={invoicePreviewRef}
+                  />
+                </div>
+              </ScrollArea>
+            </SheetContent>
+          </Sheet>
+        </div>
       </header>
 
       <main className="flex flex-1 flex-col">
