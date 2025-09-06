@@ -136,7 +136,7 @@ export function InvoiceForm({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
         <Card>
             <CardContent className="p-4 flex flex-wrap gap-2">
                 <Button onClick={handleDownload}><Download className="mr-2 h-4 w-4" /> Download</Button>
