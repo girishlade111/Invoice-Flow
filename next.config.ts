@@ -1,6 +1,10 @@
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
+  output: 'export',
+  // GitHub Pages project site: https://girishlade111.github.io/Invoice-Flow
+  basePath: '/Invoice-Flow',
+  assetPrefix: '/Invoice-Flow/',
   /* config options here */
   typescript: {
     ignoreBuildErrors: true,
@@ -9,20 +13,7 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'placehold.co',
-        port: '',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'picsum.photos',
-        port: '',
-        pathname: '/**',
-      },
-    ],
+    unoptimized: true,
   },
 };
 
